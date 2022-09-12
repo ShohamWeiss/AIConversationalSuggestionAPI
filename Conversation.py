@@ -2,7 +2,7 @@ class Conversation():
     def __init__(self):
         self.conversation = []
     
-    def add_(self, paticipant, message):
+    def add(self, paticipant, message):
         self.conversation.append([paticipant, message])
 
     def get_conversation_as_text(self):
