@@ -1,29 +1,34 @@
 from urllib import response
 from Conversation import Conversation
 from Generator import Generator
-
-conv = Conversation()
-conv.add("John", "Hello")
-conv.add("Mary", "Hi")
-conv.add("John", "How are you?")
-conv.add("Mary", "")
+from Conversational import Conversational
+from transformers import Conversation as HuggingfaceConversation
 
 # conv = Conversation()
 # conv.add("John", "Hello")
 # conv.add("Mary", "Hi")
 # conv.add("John", "How are you?")
-# conv.add("Mary", "Not so good.")
-# conv.add("John", "Why what happenned?")
-# conv.add("Mary", "I have a headache.")
-# conv.add("John", "What do you think can help?")
 # conv.add("Mary", "")
 
-print(conv.get_conversation_as_text()[:-1])
 
+conv = Conversation()
+conv.add("Them", "Hello")
+conv.add("Me", "Hi")
+conv.add("Them", "How are you?")
+conv.add("Me", "Not so good.")
+conv.add("Them", "Why what happenned?")
+conv.add("Me", "I have a headache.")
+conv.add("Them", "What do you think can help?")
+
+print(conv)
+
+conversational = Conversational()
 gen = Generator()
+
 while(True):
     response = ""
     options = gen.generate_options(conv)
+    options.append(conversational.generate_option(conv))
     options.append("TYPE")
     options.append("CLEAR")
     print(options)
@@ -35,10 +40,8 @@ while(True):
         response = ""
         conv.pop()
     else:
-        response = conv.pop()[1]
-        response += options[inp]
+        response = f"Me:{options[inp]}"
         
-    conv.add("Mary", response)
+    conv.add("Them", response)
     
-    print(conv.get_conversation_as_text()[:-1])
-    
+    print(conv)

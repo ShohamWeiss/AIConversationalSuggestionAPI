@@ -9,8 +9,9 @@ class Generator():
 
     def generate_options(self, conversation):
         suggestions = []
-        conv = conversation.get_conversation_as_text()
-        conv = conv[:-1] # removing last \n to not confuse the model
+        conv = str(conversation)
+        conv += "Me:"
+        # conv = conv[:-1] # removing last \n to not confuse the model
         num_of_tokens = self.tokenizer(conv, return_tensors="pt").input_ids.shape[1]
         for token_length in self.token_lengths:
             generated_text = self.model(
