@@ -1,10 +1,15 @@
 from transformers import Conversation as HuggingfaceConversation
 
 class Conversation():
-    def __init__(self, conversation:HuggingfaceConversation=None):
+    def __init__(self, hf_conversation:HuggingfaceConversation=None):
         self.conversation = []
-        if conversation is not None:
-            self.from_huggingface_conversation(conversation)
+        if hf_conversation is not None:
+            self.from_huggingface_conversation(hf_conversation)
+    
+    def __init__(self, conversation_list:list[list]=None):
+        self.conversation = []
+        if conversation_list is not None:
+            self.from_list_of_list(conversation_list)
             
     def add(self, paticipant, message):
         self.conversation.append([paticipant, message])
@@ -17,6 +22,10 @@ class Conversation():
     
     def pop(self):
         return self.conversation.pop(-1)
+    
+    def from_list_of_list(self, conversation_list:list[list]):
+        for message in conversation_list:
+            self.add(message[0], message[1])
     
     def from_huggingface_conversation(self, conversation):
         for message in conversation.iter_texts():

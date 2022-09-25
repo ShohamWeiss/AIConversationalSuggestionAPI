@@ -6,13 +6,18 @@ class QA():
     def __init__(self):
         self.model = pipeline("question-answering")
         
-    def generate_options(self, conversation:Conversation, context:str) -> str:        
+    def generate_options(self, conversation:Conversation, context:str) -> str:
+        '''Generates options from a conversation'''  
         question = conversation.pop()
-        result = self.model(question=question, context=context)
+        result = self.model(question=question[0], context=context)
         options = []
+        # check if result is a list
+        if (not isinstance(result, list)):
+            result = [result]
+            
         for option in result:
             if option["score"] > 0.6:
-                options.append(option["answer"])
+                options.append(option["answer"])        
         return options
     
 if __name__=="__main__":

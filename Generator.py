@@ -1,19 +1,24 @@
+import imp
 from transformers import pipeline, AutoTokenizer
 from Conversation import Conversation
+from copy import deepcopy
 
 class Generator():
-    def __init__(self, token_lengths = [1,1,2,2]):
+    def __init__(self):
         self.model = pipeline('text-generation', model = 'gpt2-large')        
-        self.tokenizer = AutoTokenizer.from_pretrained("gpt2-large")
-        self.token_lengths = token_lengths
+        self.tokenizer = AutoTokenizer.from_pretrained("gpt2-large")        
 
-    def generate_options(self, conversation):
+    def generate_options(self, conversation, token_lengths = [1,1,2,2]) -> list:
+        '''Generates options from a conversation'''
+        conversation_copy = deepcopy(conversation)
+        if (conversation_copy.conversation[-1][0] != "Me"):
+            conversation_copy.add("Me", "")
+        
         suggestions = []
-        conv = str(conversation)
-        conv += "Me:"
-        # conv = conv[:-1] # removing last \n to not confuse the model
+        conv = str(conversation_copy)
+        conv = conv[:-1] # removing last \n to not confuse the model
         num_of_tokens = self.tokenizer(conv, return_tensors="pt").input_ids.shape[1]
-        for token_length in self.token_lengths:
+        for token_length in token_lengths:
             generated_text = self.model(
                 conv,
                 max_length = token_length+num_of_tokens,
