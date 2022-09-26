@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content=
+        "width=device-width, initial-scale=1.0">
+  
+    <title>Speech to Text</title>
+</head>
+  
+<body>
+    <div class="words" contenteditable>
+        <p id="p"></p>
+    </div>
+  
+    <script>
+        var speech = true;
+        window.SpeechRecognition = window.SpeechRecognition
+                        || window.webkitSpeechRecognition;
+  
+        const recognition = new SpeechRecognition();
+        recognition.interimResults = true;
+        const words = document.querySelector('.words');
+        words.appendChild(p);
+  
+        recognition.addEventListener('result', e => {
+            const transcript = Array.from(e.results)
+                .map(result => result[0])
+                .map(result => result.transcript)
+                .join('')
+  
+            document.getElementById("p").innerHTML = transcript;
+            console.log(transcript);
+        });
+          
+        if (speech == true) {
+            recognition.start();
+            recognition.addEventListener('end', recognition.start);
+        }
+    </script>
+</body>
+  
+</html>
+
+
+<html>
+<head>
+<style>
+.button {
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: .4s;
+  cursor: pointer;
+}
+
+.button1 {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #008CBA;
+}
+.button1:hover {
+  background-color: #008CBA;
+  color: white;
+}
+.button2 {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #008CBA;
+}
+.button2:hover {
+  background-color: #008CBA;
+  color: white;
+}
+.button3 {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #008CBA;
+}
+.button3:hover {
+  background-color: #008CBA;
+  color: white;
+}
+.button4 {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #008CBA;
+}
+.button4:hover {
+  background-color: #008CBA;
+  color: white;
+}
+.button5 {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #838783;
+}
+.button5:hover {
+  background-color: #838783;
+  color: white;
+}
+.button6 {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #5d339f;
+}
+.button6:hover {
+  background-color: #5d339f;
+  color: white;
+}
+.button7 {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #c67110;
+}
+.button7:hover {
+  background-color: #c67110;
+  color: white;
+}
+.button8 {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #282a2b;
+}
+.button8:hover {
+  background-color: #282a2b;
+  color: white;
+}
+
+
+</style>
+</head>
+<body>
+
+
+<button class="button button1" style = "position:absolute; left:600px; top:222px;" onclick="alert('Hello world!')"> Generative model <br> suggestion 1 for 1 token </button>
+<button class="button button2" style = "position:absolute; left:500px; top:330px;" onclick="alert('Hello world!')"> Generative model <br> suggestion 2 for 1 token </button>
+<button class="button button3" style = "position:absolute; left:600px; top:430px;" onclick="alert('Hello world!')"> Generative model <br> suggestion 1 for 2 token </button>
+<button class="button button4" style = "position:absolute; left:838px; top:530px;" onclick="alert('Hello world!')"> Generative model <br> suggestion 2 for 2 token </button>
+<button class="button button5" style = "position:absolute; left:1065px; top:430px;" onclick="alert('Hello world!')"> Refresh suggestions </button>
+<button class="button button6" style = "position:absolute; left:1100px; top:330px;" onclick="alert('Hello world!')"> Conversational AI Suggestion </button>
+<button class="button button7" style = "position:absolute; left:1065px; top:235px;" onclick="alert('Hello world!')"> QA AI Suggestion </button>
+<button class="button button8" style = "position:absolute; left:900px; top:125px;" onclick="alert('Hello world!')"> Done </button>
