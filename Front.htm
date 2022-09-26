@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Speech to Text</title>
+  <link rel="stylesheet" href="FrontStyle.css">
+  <!-- bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+  <!-- two columns -->
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <!-- two rows -->
+        <div class="row">
+          <div class="col">
+            <!-- button to start recognition -->
+            <button class="btn btn-primary" id="startButton">Start</button>
+            <!-- button to stop recognition -->
+            <button class="btn btn-secondary" id="stopButton">Stop</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <!-- conversation -->
+            <p>Current conversation.</p>
+          </div>
+        </div>
+        <!-- large conversation tracking text -->
+        <div class="conversation">
+          <p id="recordedVoice">Current Statement</p>
+        </div>
+        <!-- row with input for typing -->
+        <div class="row">
+          <div class="col">
+            <textarea id="input" rows="1" cols="50"></textarea>
+          </div>
+          <div class="col">
+            <!-- button to send text -->
+            <button class="btn btn-primary" id="sendButton">Send</button>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <button class="button button1" style="position:absolute; left:600px; top:222px;"
+          onclick="alert('Hello world!')"> Generative model <br> suggestion 1 for 1 token </button>
+        <button class="button button2" style="position:absolute; left:500px; top:330px;"
+          onclick="alert('Hello world!')"> Generative model <br> suggestion 2 for 1 token </button>
+        <button class="button button3" style="position:absolute; left:600px; top:430px;"
+          onclick="alert('Hello world!')"> Generative model <br> suggestion 1 for 2 token </button>
+        <button class="button button4" style="position:absolute; left:838px; top:530px;"
+          onclick="alert('Hello world!')"> Generative model <br> suggestion 2 for 2 token </button>
+        <button class="button button5" style="position:absolute; left:1065px; top:430px;"
+          onclick="alert('Hello world!')"> Refresh suggestions </button>
+        <button class="button button6" style="position:absolute; left:1100px; top:330px;"
+          onclick="alert('Hello world!')"> Conversational AI Suggestion </button>
+        <button class="button button7" style="position:absolute; left:1065px; top:235px;"
+          onclick="alert('Hello world!')"> QA AI Suggestion </button>
+        <button class="button button8" style="position:absolute; left:900px; top:125px;"
+          onclick="alert('Hello world!')"> Done </button>
+      </div>
+    </div>
+</body>
+
+</html>
+
+<!-- javascript link -->
+<script src="FrontScript.js"></script>
