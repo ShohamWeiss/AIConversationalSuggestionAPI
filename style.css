@@ -1,10 +1,10 @@
 .button {
   border: none;
   color: white;
-  padding: 16px 32px;
+  padding: 8px 16px;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
+  display: inline-block;  
   font-size: 16px;
   margin: 4px 2px;
   transition-duration: .4s;
@@ -82,4 +82,13 @@
 .button8:hover {
   background-color: #282a2b;
   color: white;
+}
+
+.me {
+  color: rgb(0, 217, 255);
+  font-weight: bold;
+}
+
+.them {
+  color: blue;
 }

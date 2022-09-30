@@ -1,23 +1,27 @@
 from operator import truediv
+import re
 from transformers import pipeline, AutoTokenizer
 from Conversation import Conversation
 
 class QA():
     def __init__(self):
-        self.model = pipeline("question-answering")
+        self.model = pipeline("question-answering", model="deepset/roberta-base-squad2")
         
     def generate_options(self, conversation:Conversation, context:str) -> str:
         '''Generates options from a conversation'''  
         question = conversation.pop()
-        result = self.model(question=question[0], context=context)
+        if (context == ""):
+            return ""
+        result = self.model(question=question[1], context=context)
         options = []
         # check if result is a list
         if (not isinstance(result, list)):
-            result = [result]
-            
+            return [result['answer']]
+                              
         for option in result:
             if option["score"] > 0.6:
-                options.append(option["answer"])        
+                options.append(option["answer"])
+        
         return options
     
 if __name__=="__main__":

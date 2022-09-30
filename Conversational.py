@@ -11,7 +11,10 @@ class Conversational():
 
     def generate_option(self, conversation:Conversation) -> str:        
         conv = conversation.to_huggingface_conversation()
-        self.model(conv) 
+        try:
+            self.model(conv) 
+        except:
+            return ""
         return conv.generated_responses[-1]
     
 if __name__=="__main__":

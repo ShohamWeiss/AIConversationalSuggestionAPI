@@ -10,9 +10,11 @@ class Generator():
 
     def generate_options(self, conversation, token_lengths = [1,1,2,2]) -> list:
         '''Generates options from a conversation'''
+        if (len(conversation) == 0):
+            return []
         conversation_copy = deepcopy(conversation)
-        if (conversation_copy.conversation[-1][0] != "Me"):
-            conversation_copy.add("Me", "")
+        if (conversation_copy.conversation[-1][0] != "me"):
+            conversation_copy.add("me", "")
         
         suggestions = []
         conv = str(conversation_copy)

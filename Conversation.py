@@ -14,6 +14,9 @@ class Conversation():
     def add(self, paticipant, message):
         self.conversation.append([paticipant, message])
 
+    def __len__(self):
+        return len(self.conversation)
+    
     def __str__(self) -> str:
         text = ""
         for message in self.conversation:
