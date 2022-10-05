@@ -24,6 +24,7 @@ class QA():
         
         return options
     
+# example for testing     
 if __name__=="__main__":
     conv = Conversation()    
     qa = QA()
