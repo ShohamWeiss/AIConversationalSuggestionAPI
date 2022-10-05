@@ -1,3 +1,9 @@
+'''
+This file is a demo for the generational and conversational huggingface pipelines. The starter conversation is used to generate the first suggestions
+which you can select by pressing 0,1,2,3 or 4. After each selection a new suggestion is made based on the enrire conversations history
+
+'''
+
 from urllib import response
 from Conversation import Conversation
 from Generator import Generator
