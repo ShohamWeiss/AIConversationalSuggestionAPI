@@ -93,7 +93,7 @@ function placeButtons(x,y) {
     var options = document.getElementById("options");
     var children = options.children;
     var numChildren = children.length;
-    var radius = 10;
+    var radius = 12;
     var angle = 0;
     var angleIncrement = 2*Math.PI/numChildren;
     for (i = 0; i < numChildren; i++) {
