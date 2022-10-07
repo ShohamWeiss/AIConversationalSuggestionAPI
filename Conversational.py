@@ -18,15 +18,8 @@ class Conversational():
         return conv.generated_responses[-1]
     
 if __name__=="__main__":
-    conv = Conversation()
-    # conv.add("Them", "Hello")
-    # conv.add("Me", "Hi")
-    # conv.add("Them", "How are you?")
-    # conv.add("Me", "Not so good.")
-    # conv.add("Them", "Why what happenned?")
-    # conv.add("Me", "I have a headache.")
-    # conv.add("Them", "What do you think can help?")
     
+    conv = Conversation()
     conversational = Conversational()
     
     while(True):
