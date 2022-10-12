@@ -19,3 +19,6 @@ A simple API and web user interface is used to interact with the models in an ea
 1. Run the Api.py python file to start the FastAPI server locally.
 1. Open the Index.htm file in a chrome browser.
 1. Follow the [demo video]() to see how to use the app.
+
+## Demo video
+https://youtu.be/OXnCqF3Wors
