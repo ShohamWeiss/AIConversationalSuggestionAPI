@@ -2,6 +2,7 @@ from operator import truediv
 import re
 from transformers import pipeline, AutoTokenizer
 from Conversation import Conversation
+import torch
 
 class QA():
     def __init__(self):

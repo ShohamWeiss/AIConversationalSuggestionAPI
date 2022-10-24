@@ -2,6 +2,7 @@ import imp
 from transformers import pipeline, AutoTokenizer
 from Conversation import Conversation
 from copy import deepcopy
+import torch
 
 class Generator():
     def __init__(self):
