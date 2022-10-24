@@ -94,3 +94,4 @@ if __name__ == "__main__":
     port = 8000
     # Open a ngrok tunnel to the dev server
     public_url = ngrok.connect(port).public_url
+    print(f"ngrok tunnel {public_url} -> http://localhost:{port}")
