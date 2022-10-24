@@ -83,7 +83,7 @@ async def transcribe_from_audio(file: UploadFile):
     print("Running speech2text on audio files...")
     conversation = speech2text.run_speech2text("diarization")
     
-    return conversation.to_list()
+    return str(conversation)
     
 
 if __name__ == "__main__":
