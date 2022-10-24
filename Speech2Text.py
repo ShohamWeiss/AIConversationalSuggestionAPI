@@ -1,0 +1,31 @@
+from transformers import pipeline
+from Conversation import Conversation
+from transformers import AutoTokenizer
+import torch
+import os
+
+class Speech2Text():
+    def __init__(self):
+        self.model = pipeline(
+            "automatic-speech-recognition",
+            model="facebook/wav2vec2-large-960h",
+            feature_extractor="facebook/wav2vec2-large-960h",
+            device = 0 if torch.cuda.is_available() else -1
+        )
+        self.conversation = Conversation()
+
+    def run_speech2text(self, foldername:str) -> Conversation:
+        ''' Run speech2text on audio file and return transcribed conversation '''
+        for filename in os.listdir(foldername):
+            with open(f"{foldername}/{filename}", "rb") as f:
+                audio = f.read()            
+                text = self.model(audio)
+                self.conversation.add(filename.split("_")[1], text[0]["text"])
+                
+        return self.conversation
+    
+if __name__=="__main__":
+    
+    speech2Text = Speech2Text()    
+    speech2Text.run_speech2text("diarization")
+

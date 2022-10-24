@@ -13,6 +13,8 @@ from pyngrok import ngrok
 from Diarization import Diarization
 import os
 
+from Speech2Text import Speech2Text
+
 app = FastAPI()
 # allow cross origin requests
 origins = [    
@@ -76,12 +78,9 @@ async def transcribe_from_audio(file: UploadFile):
     
     print("Transcribing audio file...")
     diarization.run_diarization(file.filename)
+    conversation = speech2text.run_speech2text("diarization")
     
-    # iterate over diarization folder
-    for file in os.listdir("diarization"):
-        # transcribe each file        
-        # add to conversation
-        pass
+    return conversation.to_list()
     
 
 if __name__ == "__main__":
@@ -93,6 +92,8 @@ if __name__ == "__main__":
     qa_model = QA()
     print("loading diarization model")
     diarization = Diarization()
+    print("loading speech2text model")
+    speech2text = Speech2Text()
     
     # Get the dev server port (defaults to 8000 for Uvicorn, can be overridden with `--port`
     # when starting the server
