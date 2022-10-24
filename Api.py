@@ -1,5 +1,6 @@
 from urllib import response
-from fastapi import FastAPI, File, FileResponse
+from fastapi import FastAPI, File
+from fastapi.responses import HTMLResponse
 import uvicorn
 from Conversation import Conversation
 from Generator import Generator
@@ -8,6 +9,7 @@ from QA import QA
 import json
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from pyngrok import ngrok
 
 app = FastAPI()
 # allow cross origin requests
@@ -30,10 +32,15 @@ class SuggestFromResponseModel(BaseModel):
     conversation: list[list]
     aboutme: str    
 
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
 async def root():
-    # return the index.html file
-    return FileResponse("index.html")    
+    # return the index.htm file
+    return open("index.htm").read()
+
+@app.get("/{filename}", response_class=HTMLResponse)
+async def resources(filename: str):
+    # return the index.htm file
+    return open(f"{filename}").read()
 
 @app.post("/suggest_next_word")
 async def suggest_next_word(conversation: list[list], suggestion_sizes: list = [1,1,2,2,4]):
@@ -81,3 +88,9 @@ if __name__ == "__main__":
     qa_model = QA()
     print("starting server")
     uvicorn.run(app)
+    
+    # Get the dev server port (defaults to 8000 for Uvicorn, can be overridden with `--port`
+    # when starting the server
+    port = 8000
+    # Open a ngrok tunnel to the dev server
+    public_url = ngrok.connect(port).public_url
