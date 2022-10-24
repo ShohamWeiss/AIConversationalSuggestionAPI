@@ -1,5 +1,5 @@
 from urllib import response
-from fastapi import FastAPI
+from fastapi import FastAPI, File, FileResponse
 import uvicorn
 from Conversation import Conversation
 from Generator import Generator
@@ -32,7 +32,8 @@ class SuggestFromResponseModel(BaseModel):
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    # return the index.html file
+    return FileResponse("index.html")    
 
 @app.post("/suggest_next_word")
 async def suggest_next_word(conversation: list[list], suggestion_sizes: list = [1,1,2,2,4]):
@@ -59,6 +60,17 @@ async def suggest_from_response(request: SuggestFromResponseModel):
     # Combine suggestions        
     suggestions = { "gen": gen_suggestions, "conv": conv_suggestions, "qa": qa_suggestions }
     return suggestions
+
+@app.post("/files/")
+async def create_file(file: bytes = File()):
+    return {"file_size": len(file)}
+
+@app.post("/transcribe_from_audio")
+async def transcribe_from_audio(file: bytes = File()):
+    ''' Generate suggestions using Generative, Conversational, and QA model '''
+    
+    with open("temp.wav", "wb") as f:
+        f.write(file)       
 
 if __name__ == "__main__":
     print("loading generative model")
