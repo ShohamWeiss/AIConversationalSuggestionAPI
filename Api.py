@@ -93,12 +93,12 @@ if __name__ == "__main__":
     print("loading diarization model")
     diarization = Diarization()
     
-    # # Get the dev server port (defaults to 8000 for Uvicorn, can be overridden with `--port`
-    # # when starting the server
-    # port = 8000
-    # # Open a ngrok tunnel to the dev server
-    # public_url = ngrok.connect(port).public_url
-    # print(f"ngrok tunnel {public_url} -> http://localhost:{port}")
+    # Get the dev server port (defaults to 8000 for Uvicorn, can be overridden with `--port`
+    # when starting the server
+    port = 8000
+    # Open a ngrok tunnel to the dev server
+    public_url = ngrok.connect(port).public_url
+    print(f"ngrok tunnel {public_url} -> http://localhost:{port}")
     
     print("starting server")    
     uvicorn.run(app)
