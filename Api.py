@@ -1,5 +1,5 @@
 from urllib import response
-from fastapi import FastAPI, File
+from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import HTMLResponse
 import uvicorn
 from Conversation import Conversation
@@ -70,12 +70,8 @@ async def suggest_from_response(request: SuggestFromResponseModel):
     suggestions = { "gen": gen_suggestions, "conv": conv_suggestions, "qa": qa_suggestions }
     return suggestions
 
-@app.post("/files/")
-async def create_file(file: bytes = File()):
-    return {"file_size": len(file)}
-
 @app.post("/transcribe_from_audio")
-async def transcribe_from_audio(file: bytes = File()):
+async def transcribe_from_audio(file: UploadFile):
     ''' Generate suggestions using Generative, Conversational, and QA model '''
     
     with open("temp.wav", "wb") as f:
