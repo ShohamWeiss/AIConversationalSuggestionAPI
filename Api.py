@@ -80,12 +80,12 @@ async def transcribe_from_audio(file: bytes = File()):
         f.write(file)       
 
 if __name__ == "__main__":
-    print("loading generative model")
-    generative_model = Generator()    
-    print("loading conversational model")
-    conversational_model = Conversational()
-    print("loading QA model")
-    qa_model = QA()
+    # print("loading generative model")
+    # generative_model = Generator()    
+    # print("loading conversational model")
+    # conversational_model = Conversational()
+    # print("loading QA model")
+    # qa_model = QA()
     print("starting server")
     uvicorn.run(app)
     
