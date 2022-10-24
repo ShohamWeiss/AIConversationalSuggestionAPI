@@ -5,7 +5,7 @@ from Conversation import Conversation
 
 class QA():
     def __init__(self):
-        self.model = pipeline("question-answering", model="deepset/roberta-base-squad2")
+        self.model = pipeline("question-answering", model="deepset/roberta-base-squad2", device=0 if torch.cuda.is_available() else -1)
         
     def generate_options(self, conversation:Conversation, context:str) -> str:
         '''Generates options from a conversation'''  

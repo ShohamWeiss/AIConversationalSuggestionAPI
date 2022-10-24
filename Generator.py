@@ -5,7 +5,7 @@ from copy import deepcopy
 
 class Generator():
     def __init__(self):
-        self.model = pipeline('text-generation', model = 'gpt2-large')        
+        self.model = pipeline('text-generation', model = 'gpt2-large', device=0 if torch.cuda.is_available() else -1)        
         self.tokenizer = AutoTokenizer.from_pretrained("gpt2-large")        
 
     def generate_options(self, conversation, token_lengths = [1,1,2,2]) -> list:

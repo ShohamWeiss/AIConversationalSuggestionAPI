@@ -9,6 +9,7 @@
   <!-- bootstrap -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <!-- bootstrap js -->
 </head>
 
@@ -51,21 +52,41 @@
         <!-- row for button for pop up -->
         <div class="row"> 
           <div class="col">                     
-            <button type="button" class="btn btn-secondary mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <button type="button" class="btn btn-secondary mt-3" data-bs-toggle="modal" data-bs-target="#aboutMeModal">
               About Me
+            </button>            
+            <button type="button" class="btn btn-secondary mt-3" data-bs-toggle="modal" data-bs-target="#settingsModal">
+              <i class="fa-solid fa-gear"></i>
             </button>
-
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="aboutMeModal" tabindex="-1" aria-labelledby="aboutMeModalLabel" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">About Me</h5>
+                    <h5 class="modal-title" id="aboutMeModalLabel">About Me</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <textarea class="modal-body" id="aboutme"></textarea>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="updateAboutMe()">Save</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="settingsModalLabel">Settings</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <label class="form-label" for="ApiEndpoint">API Endpoint</label>
+                    <input class="form-control" type="text" aria-label="API Endpoint" id="ApiEndpoint">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="updateSettings()">Save</button>
                   </div>
                 </div>
               </div>
@@ -76,7 +97,8 @@
         </div>
       </div>
       <div class="col" style = "text-align: right;">  
-        <p style = "text-align: center;color: black">Suggested Responses</p>     
+        <p style = "text-align:left;color: black">Suggested Responses</p>
+        <!-- settings icon button -->        
         <div id="options" style="position: relative;">
           <button class="button button5" onclick="refreshSuggestions()"> refresh </button>
           <button id="g_2_2" class="button button4" onclick="formSentence(this)"></button>

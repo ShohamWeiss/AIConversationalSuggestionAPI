@@ -11,7 +11,7 @@ import shutil
 
 class Diarization():
     def __init__(self):
-        self.model = Pipeline.from_pretrained("pyannote/speaker-diarization@2022.07")
+        self.model = Pipeline.from_pretrained("pyannote/speaker-diarization@2022.07", device="cuda" if torch.cuda.is_available() else "cpu")
 
     def run_diarization(self, filename:str) -> bool:
         ''' Run diarization on audio file and return True if successful '''
