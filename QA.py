@@ -9,16 +9,20 @@ class QA():
         self.model = pipeline("question-answering", model="deepset/roberta-base-squad2", device=0 if torch.cuda.is_available() else -1)
         
     def generate_options(self, conversation:Conversation, context:str) -> str:
-        '''Generates options from a conversation'''  
+        '''Generates options from a conversation by grabbing the last response and finding the answer in the context'''        
         question = conversation.pop()
         if (context == ""):
             return ""
+        # run the model on the question and context
+        # example: question = ["them","What is your name?", context = "My name is John"
         result = self.model(question=question[1], context=context)
         options = []
+        
         # check if result is a list
         if (not isinstance(result, list)):
             return [result['answer']]
-                              
+        
+        # for multiple answers, return the first one with a score above 0.6
         for option in result:
             if option["score"] > 0.6:
                 options.append(option["answer"])

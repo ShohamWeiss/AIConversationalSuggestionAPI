@@ -10,11 +10,14 @@ class Conversational():
         self.model = pipeline('conversational', model='microsoft/DialoGPT-large', device=0 if torch.cuda.is_available() else -1)
 
     def generate_option(self, conversation:Conversation) -> str:        
+        # Convert to huggingface Conversation
         conv = conversation.to_huggingface_conversation()
         try:
-            self.model(conv) 
+            # Call model with conversation
+            self.model(conv)
         except:
             return ""
+        # Get last response
         return conv.generated_responses[-1]
     
 if __name__=="__main__":

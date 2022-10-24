@@ -3,6 +3,7 @@ from Conversation import Conversation
 from transformers import AutoTokenizer
 import torch
 import os
+import ffmpeg
 
 class Speech2Text():
     def __init__(self):
@@ -25,7 +26,7 @@ class Speech2Text():
         return self.conversation
     
 if __name__=="__main__":
-    
+            
     speech2Text = Speech2Text()    
     speech2Text.run_speech2text("diarization")
 

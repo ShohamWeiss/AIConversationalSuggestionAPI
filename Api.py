@@ -33,8 +33,9 @@ app.add_middleware(
 )
 
 class SuggestFromResponseModel(BaseModel):
+    ''' DTO for suggest from response '''
     conversation: list[list]
-    aboutme: str    
+    aboutme: str
 
 @app.get("/", response_class=HTMLResponse)
 async def root():
@@ -60,13 +61,14 @@ async def suggest_next_word(conversation: list[list], suggestion_sizes: list = [
 async def suggest_from_response(request: SuggestFromResponseModel):
     ''' Generate suggestions using Generative, Conversational, and QA model '''
     
+    # example input: [[["me", "hello"], ["them", "are you a student?"]], "I am a student"]
     # Parse Context to Conversation object
     conversation = Conversation(conversation_list=request.conversation)
-    # Run Generative model on Conversation object
+    # Run Generative model on Conversation object -> ["I", "am", "a", "student"]
     gen_suggestions = generative_model.generate_options(conversation, [1,1,2,2,4])
-    # Run Conversational model on Conversation object
+    # Run Conversational model on Conversation object -> "I am a student"
     conv_suggestions = conversational_model.generate_option(conversation)
-    # Run QA model on last Conversation object with aboutme
+    # Run QA model on last Conversation object with aboutme -> "I am a student"
     qa_suggestions = qa_model.generate_options(conversation, request.aboutme)
     # Combine suggestions        
     suggestions = { "gen": gen_suggestions, "conv": conv_suggestions, "qa": qa_suggestions }
@@ -85,7 +87,7 @@ async def transcribe_from_audio(file: UploadFile):
 
 if __name__ == "__main__":
     print("loading generative model")
-    generative_model = Generator()    
+    generative_model = Generator()
     print("loading conversational model")
     conversational_model = Conversational()
     print("loading QA model")
@@ -103,5 +105,4 @@ if __name__ == "__main__":
     print(f"ngrok tunnel {public_url} -> http://localhost:{port}")
     
     print("starting server")    
-    uvicorn.run(app)
-    
+    uvicorn.run(app)    
