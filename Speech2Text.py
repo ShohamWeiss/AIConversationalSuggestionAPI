@@ -21,7 +21,7 @@ class Speech2Text():
             with open(f"{foldername}/{filename}", "rb") as f:
                 audio = f.read()            
                 text = self.model(audio)
-                self.conversation.add(filename.split("_")[1], text[0]["text"])
+                self.conversation.add(filename.split("_")[1], text["text"])
                 
         return self.conversation
     
