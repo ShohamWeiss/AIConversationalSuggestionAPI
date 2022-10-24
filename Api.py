@@ -72,12 +72,9 @@ async def suggest_from_response(request: SuggestFromResponseModel):
 
 @app.post("/transcribe_from_audio")
 async def transcribe_from_audio(file: UploadFile):
-    ''' Generate suggestions using Generative, Conversational, and QA model '''
+    ''' Generate suggestions using Generative, Conversational, and QA model '''    
     
-    with open("temp.wav", "wb") as f:
-        f.write(file)
-    
-    diarization.run_diarization("temp.wav")
+    diarization.run_diarization(file.filename)
     
     # iterate over diarization folder
     for file in os.listdir("diarization"):
@@ -96,12 +93,12 @@ if __name__ == "__main__":
     print("loading diarization model")
     diarization = Diarization()
     
-    # Get the dev server port (defaults to 8000 for Uvicorn, can be overridden with `--port`
-    # when starting the server
-    port = 8000
-    # Open a ngrok tunnel to the dev server
-    public_url = ngrok.connect(port).public_url
-    print(f"ngrok tunnel {public_url} -> http://localhost:{port}")
+    # # Get the dev server port (defaults to 8000 for Uvicorn, can be overridden with `--port`
+    # # when starting the server
+    # port = 8000
+    # # Open a ngrok tunnel to the dev server
+    # public_url = ngrok.connect(port).public_url
+    # print(f"ngrok tunnel {public_url} -> http://localhost:{port}")
     
     print("starting server")    
     uvicorn.run(app)
