@@ -21,7 +21,7 @@ class Diarization():
             i = 0
             for turn, _, speaker in diarization.itertracks(yield_label=True):                
                 print(f"start={turn.start:.1f}s stop={turn.end:.1f}s speaker_{speaker}")
-                song[turn.start*1000:turn.end*1000].export(f"audio_{speaker}_{i}.wav", format="wav")
+                song[turn.start*1000:turn.end*1000].export(f"diarization/audio_{speaker}_{i}.wav", format="wav")
                 i += 1
             return True        
         except:

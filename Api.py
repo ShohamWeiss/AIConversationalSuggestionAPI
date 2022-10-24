@@ -10,6 +10,8 @@ import json
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from pyngrok import ngrok
+from Diarization import Diarization
+import os
 
 app = FastAPI()
 # allow cross origin requests
@@ -77,7 +79,16 @@ async def transcribe_from_audio(file: bytes = File()):
     ''' Generate suggestions using Generative, Conversational, and QA model '''
     
     with open("temp.wav", "wb") as f:
-        f.write(file)       
+        f.write(file)
+    
+    diarization.run_diarization("temp.wav")
+    
+    # iterate over diarization folder
+    for file in os.listdir("diarization"):
+        # transcribe each file        
+        # add to conversation
+        pass
+    
 
 if __name__ == "__main__":
     # print("loading generative model")
@@ -86,6 +97,8 @@ if __name__ == "__main__":
     # conversational_model = Conversational()
     # print("loading QA model")
     # qa_model = QA()
+    print("loading diarization model")
+    diarization = Diarization()
     
     # Get the dev server port (defaults to 8000 for Uvicorn, can be overridden with `--port`
     # when starting the server
