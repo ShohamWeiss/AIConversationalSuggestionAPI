@@ -74,6 +74,7 @@ async def suggest_from_response(request: SuggestFromResponseModel):
 async def transcribe_from_audio(file: UploadFile):
     ''' Generate suggestions using Generative, Conversational, and QA model '''    
     
+    print("Transcribing audio file...")
     diarization.run_diarization(file.filename)
     
     # iterate over diarization folder
