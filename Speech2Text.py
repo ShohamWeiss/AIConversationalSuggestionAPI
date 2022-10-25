@@ -17,7 +17,9 @@ class Speech2Text():
 
     def run_speech2text(self, foldername:str) -> Conversation:
         ''' Run speech2text on audio file and return transcribed conversation '''
-        for filename in os.listdir(foldername):
+        # order files by name
+        files = sorted(os.listdir(foldername))
+        for filename in files:
             with open(f"{foldername}/{filename}", "rb") as f:
                 audio = f.read()            
                 text = self.model(audio)
@@ -28,5 +30,6 @@ class Speech2Text():
 if __name__=="__main__":
             
     speech2Text = Speech2Text()    
-    speech2Text.run_speech2text("diarization")
+    results = speech2Text.run_speech2text("diarization")
+    print(results)
 
