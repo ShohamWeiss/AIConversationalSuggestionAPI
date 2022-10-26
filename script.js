@@ -1,5 +1,6 @@
 conversation = [];
 aboutme = "";
+apiEndpoint = "localhost:8000/";
 
 window.SpeechRecognition = window.SpeechRecognition
 || window.webkitSpeechRecognition;
@@ -151,7 +152,7 @@ function getNextWordSuggestions() {
             document.getElementsByClassName("genloader").hidden = true;
         }
     };
-    xhttp.open("POST", "http://localhost:8000/suggest_next_word", true);
+    xhttp.open("POST", `${apiEndpoint}suggest_next_word`, true);
     xhttp.setRequestHeader("Content-Type", "application/json");
     // allow cros origin requests    
     xhttp.setRequestHeader("Access-Control-Allow-Origin", "*");    
@@ -185,7 +186,7 @@ function getResponseSuggestions() {
             qa_button.innerHTML = suggestions['qa'];
         }
     };
-    xhttp.open("POST", "http://localhost:8000/suggest_from_response", true);
+    xhttp.open("POST", `${apiEndpoint}suggest_from_response`, true);
     xhttp.setRequestHeader("Content-Type", "application/json");
     // allow cros origin requests
     xhttp.setRequestHeader("Access-Control-Allow-Origin", "*");    
@@ -223,6 +224,17 @@ function refreshSuggestions() {
     getResponseSuggestions();
 }
 
+// function to update settings
+function updateSettings() {
+    apiEndpoint = document.getElementById("ApiEndpoint").value;
+}
+
+// function to fill in settings
+function fillSettings() {
+    document.getElementById("ApiEndpoint").value = apiEndpoint;
+}
+
 placeButtons(15,15);
 displayConversation();
 fillAboutMe();
+fillSettings();
