@@ -27,8 +27,7 @@ class QA:
         # for option in result:
         #     if option["score"] > 0.6:
         #         options.append(option["answer"])
-
-        return options
+        # return options
 
 
 # example for testing     

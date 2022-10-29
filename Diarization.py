@@ -1,4 +1,3 @@
-from transformers import AutoTokenizer
 from pyannote.audio import Pipeline
 from pydub import AudioSegment
 import os

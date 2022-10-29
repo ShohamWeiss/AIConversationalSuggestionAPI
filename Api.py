@@ -74,29 +74,29 @@ async def suggest_from_response(request: SuggestFromResponseModel):
     suggestions = { "gen": gen_suggestions, "conv": conv_suggestions, "qa": qa_suggestions }
     return suggestions
 
-@app.post("/transcribe_from_audio")
-async def transcribe_from_audio(file: UploadFile):
-    ''' Generate suggestions using Generative, Conversational, and QA model '''    
-    
-    print("Running diarization on audio file...")
-    diarization.run_diarization(file.filename)
-    print("Running speech2text on audio files...")
-    conversation = speech2text.run_speech2text("diarization")
-    
-    return str(conversation)
+# @app.post("/transcribe_from_audio")
+# async def transcribe_from_audio(file: UploadFile):
+#     ''' Generate suggestions using Generative, Conversational, and QA model '''
+#
+#     print("Running diarization on audio file...")
+#     diarization.run_diarization(file.filename)
+#     print("Running speech2text on audio files...")
+#     conversation = speech2text.run_speech2text("diarization")
+#
+#     return str(conversation)
     
 
 if __name__ == "__main__":
-    # print("loading generative model")
-    # generative_model = Generator()
-    # print("loading conversational model")
-    # conversational_model = Conversational()
-    # print("loading QA model")
-    # qa_model = QA()
-    print("loading diarization model")
-    diarization = Diarization()
-    print("loading speech2text model")
-    speech2text = Speech2Text()
+    print("loading generative model")
+    generative_model = Generator()
+    print("loading conversational model")
+    conversational_model = Conversational()
+    print("loading QA model")
+    qa_model = QA()
+    # print("loading diarization model")
+    # diarization = Diarization()
+    # print("loading speech2text model")
+    # speech2text = Speech2Text()
     
     # Get the dev server port (defaults to 8000 for Uvicorn, can be overridden with `--port`
     # when starting the server
@@ -106,4 +106,4 @@ if __name__ == "__main__":
     print(f"ngrok tunnel {public_url} -> http://localhost:{port}")
     
     print("starting server")    
-    uvicorn.run(app)    
+    uvicorn.run(app, reload=True)    

@@ -1,4 +1,5 @@
 from transformers import Conversation as HuggingfaceConversation
+from typing import List
 
 
 class Conversation:
@@ -10,7 +11,7 @@ class Conversation:
         if hf_conversation:
             self.from_huggingface_conversation(hf_conversation)
 
-    def __init__(self, conversation_list: list[list] = None):
+    def __init__(self, conversation_list: List[List] = None):
         ''' Create a Conversation object from a list of lists '''
         self.conversation = []
         if conversation_list:
@@ -47,9 +48,7 @@ class Conversation:
     def from_huggingface_conversation(self, conversation):
         ''' Helper function for creating a Conversation object from a Huggingface Conversation object '''
         for is_user, text_chunks in conversation.iter_texts():
-            participant = "them"
-            if is_user:
-                participant = "me"
+            participant = "me" if is_user else 'them'
             self.add(participant, text_chunks)
 
     def to_huggingface_conversation(self) -> HuggingfaceConversation:
