@@ -1,6 +1,6 @@
 conversation = [];
 aboutme = "";
-apiEndpoint = "localhost:8000/";
+apiEndpoint = "http://localhost:8000/";
 
 window.SpeechRecognition = window.SpeechRecognition
 || window.webkitSpeechRecognition;
@@ -24,7 +24,73 @@ recognition.addEventListener('result', e => {
 // when startButton is clicked, start recognition
 const startButton = document.querySelector('#startButton');
 startButton.addEventListener('click', () => {
+    // start auto transcription
     recognition.start();
+    // start recording
+    navigator.mediaDevices.getUserMedia({ audio: true })
+    .then(stream => {
+        const mediaRecorder = new MediaRecorder(stream, {mimeType: 'audio/wav'});
+        mediaRecorder.start();
+        const audioChunks = [];
+        mediaRecorder.addEventListener("dataavailable", event => {
+            audioChunks.push(event.data);
+        });
+        // every 10 seconds post recorded audio to server and reset the audio chunks
+        setInterval(() => {
+            const audioBlob = new Blob(audioChunks);
+            const audioUrl = URL.createObjectURL(audioBlob);
+            const audio = new Audio(audioUrl);
+            const playPromise = audio.play();
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    // Automatic playback started!
+                    // Show playing UI.
+                    console.log('audio playing');
+                })
+                .catch(error => {
+                    // Auto-play was prevented
+                    // Show paused UI.
+                    console.log('playback prevented');
+                });
+            }
+            const audioData = new FormData();   
+            audioData.append("audio_data", audioBlob, "audio.wav");
+            fetch(apiEndpoint + "audio", {
+                method: "POST",
+                body: audioData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("audio data", data);
+                // if the audio data is not empty, add it to the conversation
+                if (data != "") {
+                    conversation.push(data);
+                }
+            });
+            audioChunks.length = 0;
+            mediaRecorder.stop();
+        }, 10000);        
+        // setInterval(function() {
+        //     mediaRecorder.stop();
+        //     // save audio to file
+        //     const audioBlob = new Blob(audioChunks,  { 'type' : 'audio/wav;' });
+        //     // send audio to server
+        //     var xhttp = new XMLHttpRequest();
+        //     xhttp.onreadystatechange = function() {
+        //         if (this.readyState == 4 && this.status == 200) {
+        //             console.log("response", this.responseText);
+        //             // reset audio chunks
+        //             audioChunks = [];
+        //         }
+        //     };
+        //     xhttp.open("POST", `${apiEndpoint}transcribe_from_audio`, true);
+        //     const formData = new FormData();
+        //     formData.append('file', audioBlob, 'audio.wav');
+        //     xhttp.send(formData);
+        //     // start recording again
+        //     mediaRecorder.start();
+        // }, 10000);            
+    });    
     // hide start button
     startButton.hidden = true;
     // show stop button
@@ -233,6 +299,32 @@ function updateSettings() {
 function fillSettings() {
     document.getElementById("ApiEndpoint").value = apiEndpoint;
 }
+
+// // function to transcribe audio    
+// function transcribe () {
+//     // dump audio to file
+//     var blob = new Blob([audio], {type: 'audio/wav'});
+//     var formData = new FormData();
+//     formData.append('file', blob, 'audio.wav');
+//     // call api
+//     var xhttp = new XMLHttpRequest();
+//     xhttp.onreadystatechange = function() {
+//         if (this.readyState == 4 && this.status == 200) {
+//             // parse json response to list of suggestions
+//             var suggestions = JSON.parse(this.responseText);
+//             console.log("trans", suggestions);
+//         }
+//     };
+//     xhttp.open("POST", `${apiEndpoint}transcribe_from_audio`, true);
+//     xhttp.setRequestHeader("Content-Type", "application/json");
+//     // allow cros origin requests    
+//     xhttp.setRequestHeader("Access-Control-Allow-Origin", "*");    
+//     xhttp.send(formData);    
+//     xhttp.send(JSON.stringify(body));
+// }
+
+// // every 10 seconds call the transcribe function
+// setInterval(transcribe, 10000);
 
 placeButtons(15,15);
 displayConversation();
