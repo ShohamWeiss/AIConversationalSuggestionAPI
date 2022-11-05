@@ -2,6 +2,7 @@ from transformers import pipeline
 from Conversation import Conversation
 import torch
 import os
+import shutil
 
 class Speech2Text():
     def __init__(self):
@@ -25,7 +26,9 @@ class Speech2Text():
                 text = self.model(audio)
                 print(text)
                 conversation.add(filename[2:-4].lower(), text["text"].lower())                
-                
+
+        # delete diarization folder
+        shutil.rmtree(foldername)
         return conversation
     
 if __name__=="__main__":
