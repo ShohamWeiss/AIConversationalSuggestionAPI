@@ -6,9 +6,9 @@ import shutil
 
 class Diarization():
     def __init__(self):
-        self.model = Pipeline.from_pretrained("pyannote/speaker-segmentation", use_auth_token="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")
+        self.model = Pipeline.from_pretrained("pyannote/speaker-segmentation", use_auth_token="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")
         # self.model = Pipeline.from_pretrained("pyannote/speaker-diarization@2.1",                                    
-                                    # use_auth_token="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")
+        #                             use_auth_token="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")
 
     def run_diarization(self, filename:str) -> bool:
         ''' Run diarization on audio file and return True if successful '''
@@ -34,5 +34,6 @@ class Diarization():
     
 if __name__=="__main__":
     
-    diarization = Diarization()    
-    diarization.run_diarization("blob.wav")
+    diarization = Diarization()
+    print("running diarization on audio file...")
+    diarization.run_diarization("audio3.wav")

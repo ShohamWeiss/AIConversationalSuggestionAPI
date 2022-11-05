@@ -26,84 +26,41 @@ const startButton = document.querySelector('#startButton');
 startButton.addEventListener('click', () => {
     // start auto transcription
     recognition.start();
-    // start recording
-    navigator.mediaDevices.getUserMedia({ audio: true })
-    .then(stream => {
-        const mediaRecorder = new MediaRecorder(stream, {mimeType: 'audio/wav'});
-        mediaRecorder.start();
-        const audioChunks = [];
-        mediaRecorder.addEventListener("dataavailable", event => {
-            audioChunks.push(event.data);
-        });
-        // every 10 seconds post recorded audio to server and reset the audio chunks
-        setInterval(() => {
-            const audioBlob = new Blob(audioChunks);
-            const audioUrl = URL.createObjectURL(audioBlob);
-            const audio = new Audio(audioUrl);
-            const playPromise = audio.play();
-            if (playPromise !== undefined) {
-                playPromise.then(_ => {
-                    // Automatic playback started!
-                    // Show playing UI.
-                    console.log('audio playing');
-                })
-                .catch(error => {
-                    // Auto-play was prevented
-                    // Show paused UI.
-                    console.log('playback prevented');
-                });
-            }
-            const audioData = new FormData();   
-            audioData.append("audio_data", audioBlob, "audio.wav");
-            fetch(apiEndpoint + "audio", {
-                method: "POST",
-                body: audioData
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log("audio data", data);
-                // if the audio data is not empty, add it to the conversation
-                if (data != "") {
-                    conversation.push(data);
-                }
-            });
-            audioChunks.length = 0;
-            mediaRecorder.stop();
-        }, 10000);        
-        // setInterval(function() {
-        //     mediaRecorder.stop();
-        //     // save audio to file
-        //     const audioBlob = new Blob(audioChunks,  { 'type' : 'audio/wav;' });
-        //     // send audio to server
-        //     var xhttp = new XMLHttpRequest();
-        //     xhttp.onreadystatechange = function() {
-        //         if (this.readyState == 4 && this.status == 200) {
-        //             console.log("response", this.responseText);
-        //             // reset audio chunks
-        //             audioChunks = [];
-        //         }
-        //     };
-        //     xhttp.open("POST", `${apiEndpoint}transcribe_from_audio`, true);
-        //     const formData = new FormData();
-        //     formData.append('file', audioBlob, 'audio.wav');
-        //     xhttp.send(formData);
-        //     // start recording again
-        //     mediaRecorder.start();
-        // }, 10000);            
-    });    
+    // call audio_recoder/app.js startRecording() function
+    startRecording();
     // hide start button
     startButton.hidden = true;
     // show stop button
     stopButton.hidden = false;
 });
 
+function postAudio(blob) {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function (e) {
+        if (this.readyState === 4) {
+            // read append the text to the conversation
+            var response = JSON.parse(this.responseText);
+            for (i = 0; i < response.length; i++) {
+                conversation.push([response[i][0],response[i][1]]);
+            }            
+            displayConversation();
+        }
+    };
+    var fd = new FormData();
+    fd.append("file", blob, "audio.wav");
+    var apiEndpoint = "http://localhost:8000/";
+    xhr.open("POST", apiEndpoint + "transcribe_from_audio", true);
+    xhr.send(fd);
+}
+
 // when stopButton is clicked, stop recognition
 const stopButton = document.querySelector('#stopButton');
 stopButton.addEventListener('click', () => {
     recognition.stop();
+    // call audio_recoder/app.js stopRecording() function
+    stopRecording();
     // add to conversation list    
-    conversation.push(["them",recordedVoice.innerHTML]);
-    displayConversation();
+    // conversation.push(["them",recordedVoice.innerHTML]);    
     getNextWordSuggestions();
     getResponseSuggestions();
     // hide stop button
@@ -160,7 +117,7 @@ function placeButtons(x,y) {
     var options = document.getElementById("options");
     var children = options.children;
     var numChildren = children.length;
-    var radius = 12;
+    var radius = 20;
     var angle = 0;
     var angleIncrement = 2*Math.PI/numChildren;
     for (i = 0; i < numChildren; i++) {
@@ -326,7 +283,7 @@ function fillSettings() {
 // // every 10 seconds call the transcribe function
 // setInterval(transcribe, 10000);
 
-placeButtons(15,15);
+placeButtons(25,25);
 displayConversation();
 fillAboutMe();
 fillSettings();

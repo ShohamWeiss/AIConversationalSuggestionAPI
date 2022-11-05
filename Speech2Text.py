@@ -1,9 +1,7 @@
 from transformers import pipeline
 from Conversation import Conversation
-from transformers import AutoTokenizer
 import torch
 import os
-import ffmpeg
 
 class Speech2Text():
     def __init__(self):
@@ -17,15 +15,16 @@ class Speech2Text():
 
     def run_speech2text(self, foldername:str) -> Conversation:
         ''' Run speech2text on audio file and return transcribed conversation '''
+        conversation = Conversation()
         # order files by name
         files = sorted(os.listdir(foldername))
         for filename in files:
             with open(f"{foldername}/{filename}", "rb") as f:
-                audio = f.read()            
-                text = self.model(audio)
+                audio = f.read()
+                text = self.model(audio).lower()
                 self.conversation.add(filename.split("_")[1], text["text"])
                 
-        return self.conversation
+        return conversation
     
 if __name__=="__main__":
             
