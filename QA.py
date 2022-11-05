@@ -10,6 +10,8 @@ class QA():
         
     def generate_options(self, conversation:Conversation, context:str) -> str:
         '''Generates options from a conversation by grabbing the last response and finding the answer in the context'''        
+        if (len(conversation) == 0):
+            return ""
         question = conversation.pop()
         if (context == ""):
             return ""
