@@ -24,7 +24,7 @@ class Speech2Text():
                 audio = f.read()
                 text = self.model(audio)
                 print(text)
-                conversation.add(filename.split("_")[1], text["text"])                
+                conversation.add(filename[2:-4].lower(), text["text"].lower())                
                 
         return conversation
     
