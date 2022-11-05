@@ -15,8 +15,11 @@ class Speech2Text():
         self.conversation = Conversation()
 
     def run_speech2text(self, foldername:str) -> Conversation:
-        ''' Run speech2text on audio file and return transcribed conversation '''
+        ''' Run speech2text on audio file and return transcribed conversation '''        
         conversation = Conversation()
+        # if diarization folder doesn't exist, return empty conversation
+        if (not os.path.exists(foldername)):
+            return conversation
         # order files by name
         files = sorted(os.listdir(foldername))
         for filename in files:
