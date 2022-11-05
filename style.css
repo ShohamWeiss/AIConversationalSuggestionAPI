@@ -119,9 +119,11 @@
   
 }
 
-/* #convContainer{
-  overflow: hidden;
-} */
+/* class for div that grows its height with text */
+.grow {  
+  background-color: #fff;  
+  overflow:scroll  
+}
 
 .startbutton {
 	width: 35px;

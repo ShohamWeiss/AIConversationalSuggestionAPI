@@ -34,39 +34,25 @@ startButton.addEventListener('click', () => {
     stopButton.hidden = false;
 });
 
-function postAudio(blob) {
-    var xhr = new XMLHttpRequest();
-    xhr.onload = function (e) {
-        if (this.readyState === 4) {
-            // read append the text to the conversation
-            var response = JSON.parse(this.responseText);
-            for (i = 0; i < response.length; i++) {
-                conversation.push([response[i][0],response[i][1]]);
-            }            
-            displayConversation();
-        }
-    };
-    var fd = new FormData();
-    fd.append("file", blob, "audio.wav");
-    var apiEndpoint = "http://localhost:8000/";
-    xhr.open("POST", apiEndpoint + "transcribe_from_audio", true);
-    xhr.send(fd);
-}
-
 // when stopButton is clicked, stop recognition
 const stopButton = document.querySelector('#stopButton');
 stopButton.addEventListener('click', () => {
     recognition.stop();
     // call audio_recoder/app.js stopRecording() function
-    stopRecording();
-    // add to conversation list    
-    // conversation.push(["them",recordedVoice.innerHTML]);    
-    getNextWordSuggestions();
-    getResponseSuggestions();
+    stopRecording();      
     // hide stop button
     stopButton.hidden = true;
     // show start button
     startButton.hidden = false;
+});
+
+// when transctibe button is clicked, transcribe the audio
+transcribeButton = document.getElementById("transcribeButton");
+transcribeButton.addEventListener('click', () => {
+    //create the wav blob and pass it on to createDownloadLink
+	rec.exportWAV(postAudio);
+    // reset the recorder
+    rec.clear();    
 });
 
 // when send button is clicked, add to conversation list and say the sentence
@@ -142,6 +128,30 @@ function formSentence(element)
     getNextWordSuggestions();
 }
 
+function postAudio(blob) {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function (e) {
+        if (this.readyState === 4) {
+            // read append the text to the conversation
+            var response = JSON.parse(this.responseText);
+            for (i = 0; i < response.length; i++) {
+                conversation.push([response[i][0],response[i][1]]);
+            }            
+            displayConversation();
+            getNextWordSuggestions();
+            getResponseSuggestions();
+        }        
+    };
+    var fd = new FormData();
+    fd.append("file", blob, "audio.wav");        
+    xhr.open("POST", `${apiEndpoint}transcribe_from_audio`, true);    
+    xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+    xhr.setRequestHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+    xhr.setRequestHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    // xhr.FormData = fd;
+    xhr.send(fd);
+}
+
 // function to call POST API with conversation list as json paylod to get suggestions
 function getNextWordSuggestions() {
     // show loader    
@@ -178,7 +188,10 @@ function getNextWordSuggestions() {
     xhttp.open("POST", `${apiEndpoint}suggest_next_word`, true);
     xhttp.setRequestHeader("Content-Type", "application/json");
     // allow cros origin requests    
-    xhttp.setRequestHeader("Access-Control-Allow-Origin", "*");    
+    xhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
+    xhttp.setRequestHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+    xhttp.setRequestHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
     // deep copy of conversation list
     tempConv = JSON.parse(JSON.stringify(conversation));
     if (input.value != "") {

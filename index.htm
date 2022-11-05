@@ -26,12 +26,12 @@
             <!-- button to start recognition -->
             <button class="startbutton" id="startButton">Record</button>
             <!-- button to stop recognition -->
-            <button class="stoprec" id="stopButton" hidden="true">Stop</button>
+            <button class="stoprec" id="stopButton" hidden="true">Stop</button>            
           </div>
         </div>
         <!-- large conversation tracking text -->
         <div class="rows">          
-          <p id="recordedVoice"></p>
+          <p class="grow" id="recordedVoice"></p>
         </div>
         <div class="row">
           <div class="col">            
@@ -45,9 +45,7 @@
         <div class="row">          
           <div class="col">            
             <div class="input-group mt-3">
-              <input id="input" type="text" class="form-control" placeholder="Manual Response">
-              <!-- button to send text -->
-              <button class="btn btn-primary" id="sendButton">Speak</button>              
+              <input id="input" type="text" class="form-control" placeholder="Manual Response">                      
             </div>
           </div>
         </div>
@@ -102,14 +100,18 @@
         <p style = "text-align:left;color: black">Suggested Responses</p>
         <!-- settings icon button -->        
         <div id="options" style="position: relative;">
-          <button class="button button5" onclick="refreshSuggestions()"> refresh </button>
           <button id="g_2_2" class="button button4" onclick="formSentence(this)"></button>
           <button id="g_2_1" class="button button3" onclick="formSentence(this)"></button>
           <button id="g_1_2" class="button button2" onclick="formSentence(this)"></button>
           <button id="g_1_1" class="button button1" onclick="formSentence(this)"></button>
           <button id="c" class="button button6" onclick="formSentence(this)"></button>
-          <button id="done" class="button button8" onclick="clearConversation()">Clear</button>
           <button id="qa" class="button button7" onclick="formSentence(this)"></button>
+          <button class="button button5" onclick="refreshSuggestions()"> refresh </button>
+          <button id="done" class="button button8" onclick="clearConversation()">Clear</button>
+          <!-- button to transcribe recording -->
+          <button class="btn btn-primary" id="transcribeButton">Transcribe</button>
+          <!-- button to send text -->
+          <button class="btn btn-primary" id="sendButton">Speak</button>      
         </div>
       </div>
     </div>
