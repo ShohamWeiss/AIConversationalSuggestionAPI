@@ -79,7 +79,7 @@ async def suggest_from_response(request: SuggestFromResponseModel):
     return suggestions
 
 @app.post("/transcribe_from_audio")
-async def transcribe_from_audio(file: UploadFile):
+async def transcribe_from_audio(UploadFile: UploadFile):
     ''' Generate suggestions using Generative, Conversational, and QA model '''
     # save file to disk
     filepath = "audio.wav"
