@@ -24,7 +24,8 @@ origins = [
     "http://localhost",
     "http://localhost:8080",
     "file://",
-    "null"    
+    "null",
+    "*"
 ]
 
 app.add_middleware(
@@ -40,15 +41,15 @@ class SuggestFromResponseModel(BaseModel):
     conversation: list[list]
     aboutme: str
 
-# @app.get("/", response_class=HTMLResponse)
-# async def root():
-#     # return the index.htm file
-#     return open("index.htm").read()
+@app.get("/", response_class=HTMLResponse)
+async def root():
+    # return the index.htm file
+    return open("index.htm").read()
 
-# @app.get("/{filename}", response_class=HTMLResponse)
-# async def resources(filename: str):
-#     # return the index.htm file
-#     return open(f"{filename}").read()
+@app.get("/{filename}", response_class=HTMLResponse)
+async def resources(filename: str):
+    # return the index.htm file
+    return open(f"{filename}").read()
 
 @app.post("/suggest_next_word")
 async def suggest_next_word(conversation: list[list], suggestion_sizes: list = [1,1,2,2,4]):
