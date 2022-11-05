@@ -20,8 +20,10 @@ class Speech2Text():
         files = sorted(os.listdir(foldername))
         for filename in files:
             with open(f"{foldername}/{filename}", "rb") as f:
+                print(f"running speech2text on {filename}...")
                 audio = f.read()
                 text = self.model(audio)
+                print(text)
                 self.conversation.add(filename.split("_")[1], text["text"])
                 
         return conversation
